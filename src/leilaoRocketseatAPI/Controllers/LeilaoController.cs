@@ -6,19 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace leilaoRocketseatAPI.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class LeilaoController : ControllerBase
+    public class LeilaoController : RocketAuctionBaseController
     {
         [HttpGet]
         [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)] // define uma resposta para o tipo de response http
         public IActionResult GetCurrentAuction()
         {
             var useCase = new GetCurrentUseCase();
             var result = useCase.Execute();
 
-            var item =  result.Items.First();
+            var item =  result?.Items.First();
 
             if(result is null)
             {
@@ -26,6 +24,6 @@ namespace leilaoRocketseatAPI.Controllers
             }
 
             return Ok(result);
-        }  
+        }
     }
 }

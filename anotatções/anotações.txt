@@ -1,0 +1,6 @@
+Aula 2:
+Ficou de se falar na aula: 
+- Aprender os termos de injeção de dependências como AddScoped, AddSingleton, Transit
+- Mensagens de Erro para serem inseridas de acordo com a localização do usuario da api.
+- Validação de Erros: validar as request e reponses devolvidos pela api
+- Melhora de atributo de authorização.
