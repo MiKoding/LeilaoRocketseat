@@ -11,9 +11,8 @@ namespace leilaoRocketseatAPI.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)] // define uma resposta para o tipo de response http
-        public IActionResult GetCurrentAuction()
+        public IActionResult GetCurrentAuction([FromServices] GetCurrentAuctionUseCase useCase)
         {
-            var useCase = new GetCurrentUseCase();
             var result = useCase.Execute();
 
             var item =  result?.Items.First();

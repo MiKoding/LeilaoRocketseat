@@ -1,6 +1,11 @@
+using leilaoRocketseatAPI.Contracts;
 using leilaoRocketseatAPI.Filters;
+using leilaoRocketseatAPI.Repositories;
+using leilaoRocketseatAPI.Repositories.DataAccess;
 using leilaoRocketseatAPI.Services;
+using leilaoRocketseatAPI.UseCases.Leiloes.getCurrent;
 using leilaoRocketseatAPI.UseCases.Offers.CreateOffer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,10 +50,16 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<AuthenticationUserAttribute>();
 builder.Services.AddScoped<LoggedUser>();
 builder.Services.AddScoped<CreateOfferUseCase>();
+builder.Services.AddScoped<GetCurrentAuctionUseCase>();
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();//quando alguem solicitar a interface(IAuctionRepository) ele devolve a implementação AuctionRepository
+builder.Services.AddScoped<IOfferRepository, OfferRepository>(); 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddDbContext<RocketseatAuctionDbContext>(options => {
+    options.UseSqlite(@"Data Source=C:\\Users\\Mikaio Yamada\\source\\repos\\LeilaoRocketseat\\DB\\leilaoDbNLW.db");
+});
 
 builder.Services.AddHttpContextAccessor();
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

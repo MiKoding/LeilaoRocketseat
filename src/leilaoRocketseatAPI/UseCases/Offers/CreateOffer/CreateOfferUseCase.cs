@@ -1,20 +1,20 @@
 ﻿using leilaoRocketseatAPI.Communication.Requests;
+using leilaoRocketseatAPI.Contracts;
 using leilaoRocketseatAPI.Entities;
-using leilaoRocketseatAPI.Repositories;
 using leilaoRocketseatAPI.Services;
 
 namespace leilaoRocketseatAPI.UseCases.Offers.CreateOffer
-{    
+{
     public class CreateOfferUseCase
     {
         private readonly LoggedUser _loggedUser;
+        private readonly IOfferRepository _repository;
 
-        public CreateOfferUseCase(LoggedUser loggedUser) => _loggedUser = loggedUser;
+        public CreateOfferUseCase(LoggedUser loggedUser, IOfferRepository offerRepository) { _loggedUser = loggedUser; _repository = offerRepository; } // construtor para chamada de repositório
 
         public int Execute(int itemId, RequestCreateOfferJSON request)
         {
-            var repository = new RocketseatAuctionDbContext();
-
+  
             var user = _loggedUser.User();
 
             var offer = new Offer
@@ -24,10 +24,8 @@ namespace leilaoRocketseatAPI.UseCases.Offers.CreateOffer
                 Price = request.Price,
                 UserId = user.Id,
             };
-            repository.Offers.Add(offer);
-            
-           repository.SaveChanges();
-
+          
+            _repository.Add(offer);
 
             return offer.Id;  
         }

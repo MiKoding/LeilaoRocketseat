@@ -1,23 +1,23 @@
-﻿using leilaoRocketseatAPI.Entities;
-using leilaoRocketseatAPI.Repositories;
+﻿using leilaoRocketseatAPI.Contracts;
+using leilaoRocketseatAPI.Entities;
 
 namespace leilaoRocketseatAPI.Services
 {
     public class LoggedUser
     {
         private readonly IHttpContextAccessor _contextAccessor;
-        public LoggedUser(IHttpContextAccessor httpContextAccessor)
+        private readonly IUserRepository _repository;
+        public LoggedUser(IHttpContextAccessor httpContextAccessor, IUserRepository repository)
         {
             _contextAccessor = httpContextAccessor;
+            _repository = repository;   
         }
         public User User()
-        {
-            var repository = new RocketseatAuctionDbContext();
-
+        {        
             var token = TokenOnRequest();
             var email = FromBase64String(token);
 
-            return repository.Users.First(user => user.Email.Equals(email));
+            return _repository.GetUserByEmail(email);
         }
 
         private string TokenOnRequest()
