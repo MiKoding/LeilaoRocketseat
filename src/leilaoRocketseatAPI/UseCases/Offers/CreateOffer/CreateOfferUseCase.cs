@@ -7,10 +7,10 @@ namespace leilaoRocketseatAPI.UseCases.Offers.CreateOffer
 {
     public class CreateOfferUseCase
     {
-        private readonly LoggedUser _loggedUser;
+        private readonly ILoggedUser _loggedUser;
         private readonly IOfferRepository _repository;
 
-        public CreateOfferUseCase(LoggedUser loggedUser, IOfferRepository offerRepository) { _loggedUser = loggedUser; _repository = offerRepository; } // construtor para chamada de repositório
+        public CreateOfferUseCase(ILoggedUser loggedUser, IOfferRepository offerRepository) { _loggedUser = loggedUser; _repository = offerRepository; } // construtor para chamada de repositório
 
         public int Execute(int itemId, RequestCreateOfferJSON request)
         {
